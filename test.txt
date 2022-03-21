@@ -1,4 +1,4 @@
 Uno
-Dos
+DOS
 Tres
 Cuatro
