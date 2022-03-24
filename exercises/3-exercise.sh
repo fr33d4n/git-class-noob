@@ -8,10 +8,10 @@ touch hello.txt
 echo "Hello World" > hello.txt
 git add .
 git commit -m "Commit inicial"
-echo "Hello World" >> hello.txt
+echo "\nBye World" >> hello.txt
 git add .
 git commit -m "Segundo commit"
-echo "Hello World" >> hello.txt
+echo "\nGit rules" >> hello.txt
 git add .
 git commit -m "Tercer commit"
 

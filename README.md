@@ -30,6 +30,7 @@ Contenidos:
 - [El rebase](#el-rebase)
     - [Caso facil](#caso-facil)
     - [Caso conflictivo](#caso-conflictivo)
+- [EJERCICIO 4 - Mergeando ramas](#ejercicio-4)
 - [El cherry-pick](#el-cherry-pick)
 
 ## Instalación
@@ -122,7 +123,7 @@ Recomiendo que jugueis un poco con la herramienta del Visual Studio y veáis tod
 
 ## Ejercicio 1
 
-A continuación vamos a realizar un ejercico para consolidar todo lo que hemos visto hasta ahora. Para preparar el entorno deberemos ejecutar `./exercises/1-exercise.sh`. Este es un script shell que he preparado para el ejercicio. Este script os va a crear una carpeta llamada `ejercicio1` justo fuera de este proyecto. Debeís entrar a la carpeta y ejecutar los comandos git necesarios para contestar las siguientes preguntas:
+A continuación vamos a realizar un ejercico para consolidar todo lo que hemos visto hasta ahora. Para preparar el entorno deberemos ejecutar `./exercises/1-exercise.sh`. Este es un script shell que he preparado para el ejercicio. Este script os va a crear una carpeta llamada `ejercicio1` justo fuera de este proyecto. Si os da error de permisos al ejecutar la instrucción, ejecutad `chmod +x exercises/*`. Esta instrucción da permisos de ejecución a todos los scripts que usaremos para pre-generar los ejercicos. Una vez ejecutado correctamente el comando `./exercises/1-exercise.sh` debeís entrar a la carpeta y ejecutar los comandos git necesarios para contestar las siguientes preguntas:
 - Cuantos commits hay?
 - Que se ha hecho exactamente en el último commit?
 - Cuantos tags hay?
@@ -183,13 +184,23 @@ NOTA: Si la liais mucho y quereis empezar de nuevo. Ejecutar otra vez el comando
 
 Una herramienta muy útil dentro de git es el stash. Hemos de imaginar el stash como una caja donde vamos apilando cambios. Cambios que no necesitamos, pero que nos gustaría recuperar mas tarde. Una situación habitual que nos encontramos con frecuancia es, al desarrollar en local quizas tenemos que cambiar un par de propiedades de configuración de nuestro proyecto. Por ejemplo, la ip de la base de datos, o el endpoint de un servicio local. Estos cambios no los queremos comitear nunca, ya que solo nos sirven a nosotros en nuestro ordenador. Y cuando desarrollamos siempre necesitamos que esten cambiados. Lo que haremos entonces es cambiarlos y a la hora de commitear stashear el fichero de configuración. Hacer el commit y una vez empieze con otro desarrollo sacamos del stash esos cambios. 
 
-Es importante saber que el stash tiene una restricción en su uso. Se comporta como una pila (donde apilas cosas). Esto es, para sacar una cosa que está al fondo, necesitas sacar lo que hay encima. Esto quiere decir que si stasheo unos cambios, y luego stasheo otros. Al desapilarlos para usarlos, no puedo acceder directamente al cambio antiguo. Necesito desapilar siempre el mas reciente primero. 
+Es importante saber que el stash tiene una restricción en su uso. Se comporta como una pila (donde apilas cosas). Esto es, para sacar una cosa que está al fondo, necesitas sacar lo que hay encima.  
 
 ![](./images/43.png)
 
 Para desapilar los cambios tenemos 2 posibilidades. Desapilar sacando del stash los cambios, o dejandolos. 
 
 ![](./images/44.png)
+
+Hay otra forma de desapilar los cambios del stash. Que nos va a permitir cambios que **no** son los mas recientes. Si ejecutamos `git stash list` podemos ver todo lo que hay guardado en la pila. Y con la instruccion `git stash [pop|apply] --index <num>` podremos desapilar el cambio que queramos. Vamos a verlo. 
+
+En el siguiente ejemplo voy a hacer tres modificaciones y las voy a stashear las tres por separado. Creandome una stash con 3 cambios. Además, voy a poner un mensaje a cada uno de esos cambios para que me sea mas fácil luego encontrar el cambio que quiero.
+
+![](./images/62.png)
+
+Como vemos, al crear los dos primeros stashes les he puesto un mensaje. Pero en el tercero he decicido no poner ninguno. Al visualizarlos, vemos que git, si no ponemos mensaje nos pone el mismo un mensaje automático. Ahora podemos desapilar uno de entre medio del stash:
+
+![](./images/63.png)
 
 ## Ramas
 
@@ -391,6 +402,16 @@ En el caso del fichero aprendiendo-git.txt, como hemos revertido el commit que l
 
 Como vemos, hay reverts que no tienen sentido. Por ejemplo, este que hemos hecho nosotros. Hemos revertido el commit que creaba un fichero, que en otros commits estamos cambiando... Por ello, hay veces que no puedes hacer un solo revert. Sino que tienes que empezar por anular los commits mas recientes, para después anular commits mas antiguos. Eso tiene sentido si nuestros commits son solo de una sola feature. Que es lo que debería ser.
 
+## Ejercicio 4
+
+En este ejercicio aplicaremos todos los conocimientos de merges y rebases que hemos visto. Para preparar el ejercicio ejecutaremos la instrucción `./exercises/4-exercise.sh`. Como siempre, esto nos creará una carpeta fuera de este proyecto llamada *ejercicio4* a la que debemos entrar y hacer algo de investigación. El objetivo del ejercicio es que usando `git merge` o alguna de sus variantes, `git rebase` y resolviendo conflictos que nos puedan salir deberemos terminar con:
+- 5 commits **ordenados** en la rama master. El orden de los commits lo veremos enseguida (Primero, Segundo, Tercero, Cuarto y Quinto)
+- El fichero hello.txt deberá contener las siguientes líneas, por ese orden y ni una mas ni una menos:
+```sh
+Bye World
+Linus is a god
+Git r00lz
+```
 ## El cherry-pick
 
 El cherry-pick es un comando muy útil que nos permite traspasar commits de una rama a otra. De forma individual. Lo podemos ver como un merge, pero de un commit y no de una rama. 
@@ -398,3 +419,9 @@ El cherry-pick es un comando muy útil que nos permite traspasar commits de una 
 ![](./images/50.png)
 
 El commit que copiamos de una rama a otra no será el mismo commit. Ya que su padre ya no será el mismo. Y evidentemente al hacer cherry-pick también podemos tener conflictos. Pero en general es un commit muy útil para compartir funcionalidades parciales entre miembros de un equipo. 
+
+## El rebase interactivo
+
+El rebase interactivo es una herramienta que nos permite modificar de diferentes formas los commits de una rama. En particular, los tres usos mas frequentes del rebase interactivo son:
+
+

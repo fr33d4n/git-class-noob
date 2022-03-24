@@ -9,7 +9,7 @@ echo "Hello World" > hello.txt
 git add .
 git commit -m "Commit inicial"
 git tag v1.0
-echo "Hello World" >> hello.txt
+echo "\nHello World" >> hello.txt
 git add .
 git commit -m "Commit a eliminar"
 echo "\nHola mundo" >> hello.txt
